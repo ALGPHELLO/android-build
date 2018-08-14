@@ -21,9 +21,17 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-$ANDROID_API_LEVEL
-before_script:
-    # Prepare pre-accepted licenses to not be promted at installation
-    - mkdir -p "$ANDROID_HOME/licenses"
-    - cp ./google-licenses/* "$ANDROID_HOME/licenses/"
 script:
     - ./gradlew build check
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key: "$GitOAUTHToken_ANDROID"
+  
+  on:
+    tags: false
+    repo: ALGPHELLO/android-build
+    branch: 26
+branches:
+  except:
+    - /^(?i:untagged)-.*$/
